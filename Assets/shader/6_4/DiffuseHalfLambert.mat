@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: DiffuseHalfLambert
-  m_Shader: {fileID: 4800000, guid: 1b36863fb826098448c4c6e9bb587ccc, type: 3}
+  m_Shader: {fileID: 4800000, guid: 43231a5dbc8c05f4492e057656724c16, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4

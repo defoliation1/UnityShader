@@ -34,27 +34,25 @@ Shader "Unity Shaders Book/Chapter 6/HaflLambert"
             struct v2f
             {
                 float4 pos : SV_POSITION;
-                fixed3 color : COLOR;
+                float3 normal : TEXCOORD0;
             };
 
             v2f vert(a2v v)
             {
-                const float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
-                const fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
-                const fixed3 worldNormal = normalize(mul(v.normal, (float3x3)unity_WorldToObject));
-
-                const fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * saturate(dot(worldNormal, lightDirection));
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
-                o.color = ambient + diffuse;
+                o.normal = UnityObjectToWorldNormal(v.normal);
                 return o;
             }
 
 
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed3 c = i.color;
-                return fixed4(c, 1.0);
+                const fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
+                const fixed3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
+                const fixed halfLambert = dot(normalize(i.normal), lightDirection) * 0.5 + 0.5;
+                const fixed3 color = _Diffuse * _LightColor0.xyz * halfLambert;
+                return fixed4(ambient + color, 1.0);
             }
             ENDCG
         }
