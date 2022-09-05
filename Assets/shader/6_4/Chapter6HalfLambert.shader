@@ -1,4 +1,8 @@
-Shader "Unity Shaders Book/Chapter 6/DiffusePixel"
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Unity Shaders Book/Chapter 6/HaflLambert"
 {
     Properties
     {
@@ -30,24 +34,27 @@ Shader "Unity Shaders Book/Chapter 6/DiffusePixel"
             struct v2f
             {
                 float4 pos : SV_POSITION;
-                float3 normal : TEXCOORD0;
+                fixed3 color : COLOR;
             };
 
             v2f vert(a2v v)
             {
+                const float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
+                const fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
+                const fixed3 worldNormal = normalize(mul(v.normal, (float3x3)unity_WorldToObject));
+
+                const fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * saturate(dot(worldNormal, lightDirection));
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
-                o.normal = UnityObjectToWorldNormal(v.normal);
+                o.color = ambient + diffuse;
                 return o;
             }
 
 
             fixed4 frag(v2f i) : SV_Target
             {
-                const fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
-                const fixed3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);
-                const fixed3 color = _Diffuse * _LightColor0.xyz * saturate(dot(normalize(i.normal), lightDirection));
-                return fixed4(ambient + color, 1.0);
+                fixed3 c = i.color;
+                return fixed4(c, 1.0);
             }
             ENDCG
         }

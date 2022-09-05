@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DiffusePixelLevelMat
-  m_Shader: {fileID: 4800000, guid: 1728371f75e43b6479299c58fe08a67a, type: 3}
+  m_Name: DiffuseHalfLambert
+  m_Shader: {fileID: 4800000, guid: 1b36863fb826098448c4c6e9bb587ccc, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
